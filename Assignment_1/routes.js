@@ -18,8 +18,6 @@ const requestHandler = (req, res) => {
 
     res.write('<ul><li>Kofi Manu</li></ul>');
 
-    res.write('<ul><li>Yaw Messi</li></ul>');
-
     res.write(
 
       '<body style = "color:red">'+
