@@ -1,29 +1,24 @@
 const http = require('http');
 const express = require('express')
 const routes = require('./routes');
+const adminData = require('./routes/admin')
+const shopRoutes = require('./routes/shop')
+const rootDir = require('./util/path')
+const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express()
 
-app.use('/users', (req,res,next)=>{
+app.use(bodyParser.urlencoded({extended:false}))
+
+app.use('/admin', adminData.products)
+
+app.use(shopRoutes)
+
+app.use((req,res)=>{
     
-    console.log("Log something to console again")
-
-    return res.send('<h2>Return Some Dummy data!</h2>')
-
+    res.sendFile(path.join(rootDir, './','views','404.html'))
 })
-
-
-app.use('/', (req,res,next)=>{
-
-    console.log("Log something to console")
-
-    return res.send('<h2>Welcome to this Express page, happy surfing!</h2>')
-
-
-})
-
-
-
 
 
 const server = http.createServer(app);
