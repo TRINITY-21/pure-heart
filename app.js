@@ -1,43 +1,61 @@
 const path = require('path');
 
-const MongoClient = require('mongodb').MongoClient;
-
 const express = require('express');
-
 const bodyParser = require('body-parser');
-
 const mongoose = require('mongoose');
 
 const errorController = require('./controllers/error');
+const User = require('./models/user');
 
 const app = express();
 
 app.set('view engine', 'ejs');
-
 app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
-
 const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  User.findById('5bab316ce0a7c75f783cb8a8')
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-
-/// DB connection
 mongoose
   .connect(
-    'mongodb+srv://mern:mern@cluster0.hmnq5.mongodb.net/shop', { useNewUrlParser: true }
+    'mongodb://localhost:27017/shoppy'
   )
   .then(result => {
-    app.listen(3000); 
+    console.log("DB Connected")
+    User.findOne().then(user => {
+      if (!user) {
+        const user = new User({
+          name: 'Trinity',
+          email: 'Trinity@gmail.com',
+          cart: {
+            items: [{
+              productId:'619ba76611d48774ecaaa265',
+              quantity:0,
+           
+            }]
+          }
+        });
+        user.save();
+      } 
+    }); 
+    app.listen(3000);
   })
   .catch(err => {
-    console.log(err); 
+    console.log(err);
   });

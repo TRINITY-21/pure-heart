@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-complete-guide",
+  "name": "nodejs",
   "version": "1.0.0",
   "description": "Complete Node.js Guide",
   "main": "app.js",
@@ -9,14 +9,14 @@
     "start-server": "node app.js"
   },
   "author": "TRINITY",
-  "license": "MIT",
+  "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.18.3"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
-    "express": "^4.16.3",
+    "express": "^4.16.3", 
     "express-handlebars": "^3.0.0",
     "mongodb": "^3.1.6",
     "mongoose": "^5.2.17",
