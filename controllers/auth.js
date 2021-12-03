@@ -1,5 +1,15 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
+
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+  auth:{
+    api_key:"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"
+  }
+}))
+
 
 exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
@@ -69,6 +79,14 @@ exports.postSignup = (req, res, next) => {
     })
   .then((result)=>{
     res.redirect('/login')
+    return transporter.sendMail({
+      to:email,
+      from:"shoppy@yahoo.com",
+      subject:"Welcome to Shoppy",
+      html:"<h1>Thanks for joining our team!"
+    })
+  }).catch(err=>{
+    console.log(err)
   })
 
 
